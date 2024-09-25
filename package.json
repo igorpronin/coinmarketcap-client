@@ -1,0 +1,43 @@
+{
+  "name": "@igorpronin/coinmarketcap-client",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "commonjs",
+  "description": "CoinMarketCap client for internal purposes",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "clear": "rm -rf ./dist",
+    "dev": "nodemon ./src/index.ts",
+    "debug": "nodemon ./tmp/app.ts",
+    "format": "prettier --write \"./src/**/*.ts\" \"./tests/**/*.ts\"",
+    "format:tmp": "prettier --write \"./tmp/**/*.ts\"",
+    "git": "./tools/git-commit.sh"
+  },
+  "keywords": [],
+  "author": "legalsolut@gmail.com",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/igorpronin/coinmarketcap-client.git"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.13",
+    "@types/node": "^22.7.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.7",
+    "prettier": "^3.3.3",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2"
+  },
+  "dependencies": {
+    "@types/events": "^3.0.3",
+    "axios": "^1.7.7",
+    "events": "^3.3.0"
+  }
+}
