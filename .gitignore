@@ -37,6 +37,7 @@ test/*.log
 
 # Temporary files
 tmp/
+debug/
 *.tmp
 *.tmp.*
 *.bak

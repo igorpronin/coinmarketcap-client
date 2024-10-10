@@ -1,6 +1,6 @@
 {
   "name": "@igorpronin/coinmarketcap-client",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "commonjs",
@@ -10,10 +10,12 @@
     "build": "tsc",
     "clear": "rm -rf ./dist",
     "dev": "nodemon ./src/index.ts",
-    "debug": "nodemon ./tmp/app.ts",
+    "debug": "nodemon ./debug/app.ts",
     "format": "prettier --write \"./src/**/*.ts\" \"./tests/**/*.ts\"",
     "format:tmp": "prettier --write \"./tmp/**/*.ts\"",
-    "git": "./tools/git-commit.sh"
+    "git": "./tools/git-commit.sh",
+    "release:patch": "npm run clear && ./tools/release.sh patch",
+    "release:minor": "npm run clear && ./tools/release.sh minor"
   },
   "keywords": [],
   "author": "legalsolut@gmail.com",
