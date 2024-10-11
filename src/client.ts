@@ -72,6 +72,12 @@ export class Client {
 
   public ee: EventEmitter;
 
+  private validate_if_ready() {
+    if (!this.is_instance_ready) {
+      throw new Error('Instance is not ready');
+    }
+  }
+
   constructor(params: Params) {
     this.params = params;
     this.ee = new EventEmitter();
@@ -135,10 +141,12 @@ export class Client {
   }
 
   public get_coins_by_symbol(symbol: string): Coin[] | null {
+    this.validate_if_ready();
     return this.coins_map[symbol] || null;
   }
 
   public get_coin_by_symbol(symbol: string): Coin | null {
+    this.validate_if_ready();
     const coins = this.get_coins_by_symbol(symbol);
     if (coins && coins.length > 1) {
       to_console(`Warning! Found ${coins.length} coins with symbol ${symbol}. Using the first one: ${coins[0].name}`);
@@ -147,14 +155,17 @@ export class Client {
   }
 
   public get_coin_by_id(id: number): Coin | null {
+    this.validate_if_ready();
     return this.coins_map_by_id[id] || null;
   }
 
-  public get_all_coins(): Coin[][] {
+  public get_all_coins(): Coin[][] { 
+    this.validate_if_ready();
     return Object.values(this.coins_map);
   }
 
   public get_coin_id_by_symbol(symbol: string): number | null {
+    this.validate_if_ready();
     const coins = this.get_coins_by_symbol(symbol);
     if (coins && coins.length > 1) {
       to_console(`Warning! Found ${coins.length} coins with symbol ${symbol}. Using the first one: ${coins[0].name}`);
@@ -170,7 +181,6 @@ export class Client {
   public async get_coins_quotes_latest(coin_ids: number[]): Promise<any> {
     try {
       const ids_str = coin_ids.join(',');
-      console.log('requesting coin quotes for', ids_str);
       const response = await this.api_get('v2/cryptocurrency/quotes/latest', {
         id: ids_str
       });
@@ -197,6 +207,7 @@ export class Client {
   }
 
   public async get_coin_quotes_latest_by_symbol(symbol: string): Promise<CoinQuote | null> {
+    this.validate_if_ready();
     const coin_id = this.get_coin_id_by_symbol(symbol);
     if (!coin_id) {
       throw new Error(`Coin with symbol ${symbol} not found`);
@@ -205,12 +216,15 @@ export class Client {
   }
 
   public async get_usd_price_of_asset(symbol: string): Promise<number | null> {
+    this.validate_if_ready();
     const coin_data = await this.get_coin_quotes_latest_by_symbol(symbol.toUpperCase());
     return coin_data?.quote.USD.price || null;
   }
 
   public async get_usd_price_of_assets(symbols: string[]): Promise<Record<string, number | null>> {
+    this.validate_if_ready();
     const coin_ids = symbols.map(symbol => this.get_coin_id_by_symbol(symbol)!);
+
     const coin_data = await this.get_coins_quotes_latest(coin_ids);
     
     return symbols.reduce((acc: Record<string, number | null>, symbol: string, index: number) => {
